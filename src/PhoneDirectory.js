@@ -20,7 +20,6 @@ class PhoneDirectory extends Component {
                 phone: '8888888'
             }]
         }
-        console.log(this.state);
     }
 
     addSubscriberHandler = (newSubscriber) => {
@@ -32,7 +31,18 @@ class PhoneDirectory extends Component {
         }
         subscribersList.push(newSubscriber);
         this.setState({ subscribersList: subscribersList });
-        console.log(this.state);
+    }
+
+    deleteSubscriberHandler = (subscriberId) => {
+        let subscribersList = this.state.subscribersList;
+        let subscriberIndex = 0;
+        subscribersList.forEach(function (subscriber, index) {
+            if (subscriber.id == subscriberId) {
+                subscriberIndex = index;
+            }
+        }, this);
+        subscribersList.splice(subscriberIndex, 1);//index to be removed and number of elements.
+        this.setState({ subscribersList: subscribersList });
     }
 
     render() {
@@ -40,8 +50,8 @@ class PhoneDirectory extends Component {
         return (
             <Router>
                 <div className="main-container">
-                    <Route exact path="/" render={(props) => <ShowSubscribers {...props} subscribersList={this.state.subscribersList} />} />
-                    <Route exact path="/add" render={({history}, props) => <AddSubscriber {...props} history={history} addSubscriberHandler={this.addSubscriberHandler} />} />
+                    <Route exact path="/" render={(props) => <ShowSubscribers {...props} subscribersList={this.state.subscribersList} deleteSubscriberHandler={this.deleteSubscriberHandler} />} />
+                    <Route exact path="/add" render={({ history }, props) => <AddSubscriber {...props} history={history} addSubscriberHandler={this.addSubscriberHandler} />} />
                 </div>
             </Router>
         )
