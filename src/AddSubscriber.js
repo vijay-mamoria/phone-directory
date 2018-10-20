@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Header from './Header';
 import './AddSubscriber.css';
 
-class AddSusbscriber extends Component {
+class AddSubscriber extends Component {
 
     constructor() {
         super();
@@ -19,17 +19,23 @@ class AddSusbscriber extends Component {
         const state = this.state;
         state[e.target.name] = e.target.value;
         this.setState(state);
-        console.log(this.state);
+    }
+
+    onFormSubmitted = (e) => {
+        e.preventDefault();//To Stop default page reloading on click of Submit button.
+        this.props.addSubscriberHandler(this.state);
+        this.setState({ id: 0, name: '', phone: '' });
+
     }
 
     render() {
-        const { name, phone } = this.state;
+        const { name, phone } = this.state;//extract values from the state by variable name matching 
         return (
             <div>
                 <Header heading="Add Subscriber" />
                 <div className="component-body-container">
                     <button className="custom-btn">Back</button>
-                    <form className="subscriber-form">
+                    <form className="subscriber-form" onSubmit={this.onFormSubmitted.bind(this)}>
                         <label htmlFor="name" className="label-control">Name: </label><br />
                         <input id="name" type="text" className="input-control" name="name" onChange={this.inputChangedHandler} /><br /><br />
                         <label htmlFor="phone" className="label-control">Phone: </label><br />
@@ -47,4 +53,4 @@ class AddSusbscriber extends Component {
     }
 }
 
-export default AddSusbscriber;
+export default AddSubscriber;
